@@ -267,7 +267,8 @@ for i in range (38):
      shift=0.0#idx_opt*(1.0/16)
      shifted_template=pycbc.waveform.utils.apply_fd_time_shift(template, shift, copy = True)
      
-     z_list1, y_list1, q_list1, f0_list1 = ps.parspace_sg_wrap('totalM_based', 1, min_proj, q_min, q_max, f0_min, f0_max, m1, m2, c2, GMbyc3, 'qf')
+     chirp_m = GMbyc3*(m1*m2)**(3.0/5.0)/(m1 + m2)**(1.0/5.0)
+     z_list1, y_list1, q_list1, f0_list1 = ps.sample_parameter_space(min_proj, (q_min, q_max), (f0_min, f0_max), chirp_m)
      
      opt_chi,N_basis= psg.unified_chisq(fdata,q_list1, f0_list1, min_proj, template, psd, m1, m2, len_time, f_s, flow, singval,idx_opt)
      
