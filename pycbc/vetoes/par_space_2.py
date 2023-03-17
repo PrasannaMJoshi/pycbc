@@ -59,21 +59,18 @@ def sample_parameter_space(min_proj, q_range, f0_range, chirp_m):
     z4, y4 = coordinate_transform(f0max, qmax, chirp_m, "qf->zy")
     #print('z1,z2,z3,z4=',z1,z2,z3,z4)
     #print('y1,y2,y3,y4=',y1,y2,y3,y4)
-    
-    # Calculate number of points along the z-axis (same as the number of points along a constant Q line.) 
-    Q_mean=qmax
-    f0_mean=f0max
-    GMbyc3= 4.91657e-6
-    
-    g_zz=((2**(-14.0/3)/Q_mean**2.0) + (9*Q_mean**2.0/(100*(2.0*np.pi*f0_mean*chirp_m)**(-10.0/3))))
-    delta_z = np.sqrt((1.0-min_proj)/g_zz)
-    #print "g_zz", g_zz,delta_z, chirp_m/GMbyc3
-    
     z_min=np.min([z1,z2,z3,z4])
     z_max=np.max([z1,z2,z3,z4])
     y_min=np.min([y1,y2,y3,y4])
     y_max=np.max([y1,y2,y3,y4])
     
+    # Calculate number of points along the z-axis (same as the number of points along a constant Q line.) 
+    Q_mean=qmax
+    f0_mean=f0max
+    GMbyc3= 4.91657e-6
+    g_zz=((2**(-14.0/3)/Q_mean**2.0) + (9*Q_mean**2.0/(100*(2.0*np.pi*f0_mean*chirp_m)**(-10.0/3))))
+    delta_z = np.sqrt((1.0-min_proj)/g_zz)
+    #print "g_zz", g_zz,delta_z, chirp_m/GMbyc3
     Nz = int(math.ceil((z_max-z_min)/delta_z))
     #print("number of z points =", Nz)
     z_points = [z3+x*delta_z for x in range(Nz)]
@@ -99,13 +96,11 @@ def sample_parameter_space(min_proj, q_range, f0_range, chirp_m):
     
     for y in y_points:
          for z in z_points:
-              
               if ((z>z_min) and (z<z_max) and (y<(slop1*z+c1)) and (y>(slop2*z+c2))):
+                   q_crdnt, f0_crdnt = coordinate_transform(z, y, chirp_m, "zy->qf")
+
                    y_list.append(y)
                    z_list.append(z)
-                   #w_crdnt, nu_crdnt = inv_trnsfrm_6(z, y, chirp_m)
-                   q_crdnt, f0_crdnt = coordinate_transform(z, y, chirp_m, "zy->qf")
-                   
                    q_list.append(q_crdnt)
                    f0_list.append(f0_crdnt)
     #print(y_list)

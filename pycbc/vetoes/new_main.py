@@ -267,10 +267,10 @@ for i in range (38):
      shift=0.0#idx_opt*(1.0/16)
      shifted_template=pycbc.waveform.utils.apply_fd_time_shift(template, shift, copy = True)
      
-     chirp_m = GMbyc3*(m1*m2)**(3.0/5.0)/(m1 + m2)**(1.0/5.0)
-     z_list1, y_list1, q_list1, f0_list1 = ps.sample_parameter_space(min_proj, (q_min, q_max), (f0_min, f0_max), chirp_m)
+     #chirp_m = GMbyc3*(m1*m2)**(3.0/5.0)/(m1 + m2)**(1.0/5.0)
+     #z_list1, y_list1, q_list1, f0_list1 = ps.sample_parameter_space(min_proj, (q_min, q_max), (f0_min, f0_max), chirp_m)
      
-     opt_chi,N_basis= psg.unified_chisq(fdata,q_list1, f0_list1, min_proj, template, psd, m1, m2, len_time, f_s, flow, singval,idx_opt)
+     opt_chi,N_basis= psg.unified_chisq(template, fdata, psd, m1, m2, min_proj, (flow, fhigh), singval, idx_opt)
      
      offsets=[15,30,45,60,75,90,105,120]
      print (len(offsets)) 
